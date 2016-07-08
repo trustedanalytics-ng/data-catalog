@@ -14,13 +14,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-VERSION=0.6.0
-FILE=data-catalog-deps-$VERSION.zip
+MAVEN_REPO=http://nexus.sclab.intel.com:8080/content/groups/public
+REPOSITORY=${1:-tap/data-catalog-mockery}
+WIREMOCK_VERSION=2.1.0-beta
+CURRENT_DIR=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
-# Download packages
-wget http://tap:donotchange@tapstorage.sclab.intel.com/dependencies/$FILE
+pushd $(pwd)
+cd $CURRENT_DIR
 
-unzip -d vendor $FILE
+wget -q ${MAVEN_REPO}/com/github/tomakehurst/wiremock-standalone/${WIREMOCK_VERSION}/wiremock-standalone-${WIREMOCK_VERSION}.jar
 
-# Build dependencies
-docker run -v $PWD/vendor:/src -v $PWD/build:/build tapimages.us.enableiot.com:8080/data-catalog-build
+docker build -t $REPOSITORY .
+BUILD_RET=$?
+
+rm wiremock-standalone-${WIREMOCK_VERSION}.jar
+
+popd
+
+exit $BUILD_RET

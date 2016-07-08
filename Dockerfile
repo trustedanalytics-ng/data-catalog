@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Copyright (c) 2016 Intel Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,14 +11,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+FROM tapimages.us.enableiot.com:8080/tap-base-python:python2.7-jessie
 
-VERSION=0.6.0
-FILE=data-catalog-deps-$VERSION.zip
+ENV APP_VERSION=0.6.0
+ENV PORT=8080
 
-# Download packages
-wget http://tap:donotchange@tapstorage.sclab.intel.com/dependencies/$FILE
+ADD  scripts /
+COPY build/packages/ /usr/local/lib/python2.7/site-packages/
+COPY build/bin/ /usr/local/bin/
+COPY data_catalog /data_catalog
+COPY api_doc.json /api_doc.json
 
-unzip -d vendor $FILE
-
-# Build dependencies
-docker run -v $PWD/vendor:/src -v $PWD/build:/build tapimages.us.enableiot.com:8080/data-catalog-build
+CMD /run.sh

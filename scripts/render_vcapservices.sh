@@ -14,13 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-VERSION=0.6.0
-FILE=data-catalog-deps-$VERSION.zip
+# Get this script location, so that it could be executed from anywhere
+SCRIPT_DIR=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
-# Download packages
-wget http://tap:donotchange@tapstorage.sclab.intel.com/dependencies/$FILE
-
-unzip -d vendor $FILE
-
-# Build dependencies
-docker run -v $PWD/vendor:/src -v $PWD/build:/build tapimages.us.enableiot.com:8080/data-catalog-build
+# Render VCAP_SERVICES template
+eval "cat <<EOF
+$(<$SCRIPT_DIR/vcap_template.json)
+EOF"

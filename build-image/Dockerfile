@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Copyright (c) 2016 Intel Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,14 +11,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+FROM tapimages.us.enableiot.com:8080/tap-base-python:python2.7-jessie
 
-VERSION=0.6.0
-FILE=data-catalog-deps-$VERSION.zip
+RUN apt-get update && \
+    apt-get -y install libffi-dev libssl-dev gcc git && \
+    apt-get clean autoclean && \
+    apt-get autoremove -y
 
-# Download packages
-wget http://tap:donotchange@tapstorage.sclab.intel.com/dependencies/$FILE
+VOLUME /build
+VOLUME /src
 
-unzip -d vendor $FILE
+ADD  scripts /
 
-# Build dependencies
-docker run -v $PWD/vendor:/src -v $PWD/build:/build tapimages.us.enableiot.com:8080/data-catalog-build
+CMD /build-deps.sh

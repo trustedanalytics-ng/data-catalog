@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Copyright (c) 2016 Intel Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,14 +11,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+FROM tapimages.us.enableiot.com:8080/tap-base-java:java8-jessie
 
-VERSION=0.6.0
-FILE=data-catalog-deps-$VERSION.zip
+ENV WIREMOCK_VERSION 2.1.0-beta
 
-# Download packages
-wget http://tap:donotchange@tapstorage.sclab.intel.com/dependencies/$FILE
+COPY wiremock-standalone-$WIREMOCK_VERSION.jar /home/wiremock/
+COPY __files  /home/wiremock/__files
+COPY mappings /home/wiremock/mappings
 
-unzip -d vendor $FILE
+WORKDIR /home/wiremock
 
-# Build dependencies
-docker run -v $PWD/vendor:/src -v $PWD/build:/build tapimages.us.enableiot.com:8080/data-catalog-build
+EXPOSE 8080 8081
+
+CMD java -jar wiremock-standalone-$WIREMOCK_VERSION.jar $WIREMOCK_ARGS

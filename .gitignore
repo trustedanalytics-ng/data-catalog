@@ -26,3 +26,6 @@ coverage.xml
 #pylint report
 pylint_report.txt
 
+#used for building Docker images 
+build/
+

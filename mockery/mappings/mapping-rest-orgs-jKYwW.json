@@ -1,0 +1,26 @@
+{
+  "request" : {
+    "url" : "/rest/orgs",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-rest-orgs-jKYwW.json",
+    "headers" : {
+      "Server" : "nginx/1.11.3",
+      "Date" : "Thu, 04 Aug 2016 16:37:47 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "Content-Length" : "1633",
+      "Cache-Control" : "no-cache, no-store, max-age=0, must-revalidate",
+      "Expires" : "0",
+      "Pragma" : "no-cache",
+      "X-Application-Context" : "user-management:cloud,redis:0",
+      "X-Cf-Requestid" : "bcc3f453-28c3-4279-5768-ae08d3d8c947",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Frame-Options" : "DENY",
+      "X-Xss-Protection" : "1; mode=block",
+      "Via" : "1.1 irdmzpr02.ir.intel.com",
+      "Connection" : "Keep-Alive"
+    }
+  }
+}

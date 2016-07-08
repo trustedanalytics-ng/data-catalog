@@ -1,0 +1,28 @@
+{
+  "request" : {
+    "url" : "/oauth/token",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalTo" : "grant_type=password&password=super-secret-admin-pass&scope=&username=admin"
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-oauth-token-RNj88.json",
+    "headers" : {
+      "Server" : "nginx/1.11.1",
+      "Date" : "Thu, 07 Jul 2016 15:20:48 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "Transfer-Encoding" : "chunked",
+      "Cache-Control" : [ "no-cache, no-store, max-age=0, must-revalidate", "no-store" ],
+      "Expires" : "0",
+      "Pragma" : [ "no-cache", "no-cache" ],
+      "X-Cf-Requestid" : "9c571168-14b5-4dee-439f-11c8644e71dd",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Frame-Options" : "DENY",
+      "X-Xss-Protection" : "1; mode=block",
+      "Via" : "1.1 irdmzpr02.ir.intel.com",
+      "Connection" : "Keep-Alive"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "request" : {
+    "url" : "/rest/orgs/permissions",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-orgs-permissions-sILT8.json",
+    "headers" : {
+      "Server" : "nginx/1.11.1",
+      "Date" : "Wed, 06 Jul 2016 14:49:54 GMT",
+      "Content-Type" : "application/json;charset=UTF-8",
+      "Content-Length" : "1116",
+      "Cache-Control" : "no-cache, no-store, max-age=0, must-revalidate",
+      "Expires" : "0",
+      "Pragma" : "no-cache",
+      "X-Application-Context" : "user-management:cloud,redis:0",
+      "X-Cf-Requestid" : "d8f1a52e-7378-4dbc-56bb-9bbb5c02a0eb",
+      "X-Content-Type-Options" : "nosniff",
+      "X-Frame-Options" : "DENY",
+      "X-Xss-Protection" : "1; mode=block",
+      "Via" : "1.1 irdmzpr02.ir.intel.com",
+      "Connection" : "Keep-Alive"
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "user-provided": [
+    {
+      "tags": [],
+      "syslog_drain_url": "",
+      "name": "user-management",
+      "label": "user-provided",
+      "credentials": {
+        "host": "${USER_MANAGEMENT_URI}"
+      }
+    },
+    {
+      "tags": [],
+      "syslog_drain_url": "",
+      "name": "downloader",
+      "label": "user-provided",
+      "credentials": {
+        "url": "${DOWNLOADER_URI}"
+      }
+    },
+    {
+      "tags": [],
+      "syslog_drain_url": "",
+      "name": "datacatalogexport",
+      "label": "user-provided",
+      "credentials": {
+        "host": "${DATA_CATALOG_EXPORT_URI}"
+      }
+    },
+    {
+      "tags": [],
+      "syslog_drain_url": "",
+      "name": "nats-provider",
+      "label": "user-provided",
+      "credentials": {
+        "url": "${NATS_URI}",
+        "service-creation-subject": "platform.service-creation",
+        "data-catalog-subject": "platform.data-catalog"
+      }
+    },
+    {
+      "tags": [],
+      "syslog_drain_url": "",
+      "name": "sso",
+      "label": "user-provided",
+      "credentials": {
+        "tokenKey": "${SSO_TOKENKEY}"
+      }
+    }
+  ],
+  "elasticsearch13": [
+    {
+      "tags": [
+        "elasticsearch13",
+        "elasticsearch",
+        "search"
+      ],
+      "plan": "free",
+      "name": "data-catalog-index",
+      "label": "elasticsearch13",
+      "credentials": {
+        "ports": {
+          "9200/tcp": "9200"
+        },
+        "hostname": "${ELASTICSEARCH_HOST}"
+      }
+    }
+  ]
+}

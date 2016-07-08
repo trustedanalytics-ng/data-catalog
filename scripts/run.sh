@@ -14,13 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-VERSION=0.6.0
-FILE=data-catalog-deps-$VERSION.zip
+SCRIPT_DIR=$(dirname $(readlink -f ${BASH_SOURCE[0]}))
 
-# Download packages
-wget http://tap:donotchange@tapstorage.sclab.intel.com/dependencies/$FILE
+export VCAP_SERVICES=$($SCRIPT_DIR/render_vcapservices.sh)
 
-unzip -d vendor $FILE
+if [ $(nproc) -le 4 ]
+then 
+  NPROC=$(nproc)
+else 
+  NPROC=4
+fi
 
-# Build dependencies
-docker run -v $PWD/vendor:/src -v $PWD/build:/build tapimages.us.enableiot.com:8080/data-catalog-build
+gunicorn 'data_catalog.app:get_app()' --bind :$PORT --enable-stdio-inheritance --workers $NPROC
+
