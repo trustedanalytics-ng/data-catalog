@@ -14,15 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-LOGIN=$1
-PASSWORD=$2
-VERSION=0.6.0
-FILE=data-catalog-deps-$VERSION.zip
-
-# Download packages
-wget http://$LOGIN:$PASSWORD@tapstorage.sclab.intel.com/dependencies/$FILE
-
-unzip -d vendor $FILE
+if [ ! -d $PWD/vendor ]
+then
+  echo "Vendor directory not found, please run archive-deps.sh script or download dependencies"
+  exit 1
+fi
 
 # Build dependencies
 docker run -v $PWD/vendor:/src -v $PWD/build:/build tapimages.us.enableiot.com:8080/data-catalog-build
