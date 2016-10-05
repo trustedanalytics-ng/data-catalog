@@ -9,10 +9,12 @@ data-catalog
 This service is a backend to the "Data Catalog" tab in Console.
 It is used to store, retrieve and to search over metadata describing data sets downloaded into Trusted Analytics platform.
 
-## Pushing to CloudFoundry
-* Install and upgrade pip (this may require you to relog): `sudo apt-get install python-pip && sudo pip install --upgrade pip`
-* `./pack.sh`
-* `cf push`
+## Building Docker image
+* Install and upgrade pip (this may require you to relog): `sudo apt-get install python-pip && sudo pip install --upgrade pip
+* Install Docker
+* Build image used for compilation: cd build-image && docker build .
+* Download dependencies: ./archive-deps.sh
+* Build application image:`./pack.sh`
 
 ## API documentation
 * Documentation is in [Swagger] (http://swagger.io/) (OpenAPI) format.
