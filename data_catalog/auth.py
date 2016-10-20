@@ -86,7 +86,7 @@ class Security(object):
 
     def _parse_auth_token(self, token):
         token_payload = jwt.decode(token, key=self._uaa_public_key, verify=True,
-                                   algorithms=['RS256'], audience="cloud_controller")
+                                   algorithms=['RS256'], audience="tap")
         self._log.debug('token_payload ' + str(token_payload))
         return token_payload
 
@@ -175,7 +175,7 @@ class _Authorization(object):
         self._handle_downloader_status_code(response.status_code)
         org_uuid_list = []
         for org in json.loads(response.text):
-            org_uuid_list.append(org['organization']['metadata']['guid'])
+            org_uuid_list.append(org['org']['guid'])
         return org_uuid_list
 
     @staticmethod
