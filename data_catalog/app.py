@@ -32,6 +32,7 @@ from data_catalog.metadata_entry import MetadataEntryResource
 from data_catalog.search import DataSetSearchResource
 from data_catalog.dataset_count import DataSetCountResource
 from data_catalog.api_doc import ApiDoc
+from data_catalog.dataset_publisher import TableResource
 
 
 class ExceptionHandlingApi(Api):
@@ -141,6 +142,7 @@ def _create_app(config):
     api.add_resource(DataSetSearchResource, config.app_base_path)
     api.add_resource(ApiDoc, api_doc_route)
     api.add_resource(MetadataEntryResource, config.app_base_path + '/<entry_id>')
+    api.add_resource(TableResource, config.app_base_path + '/<entry_id>/table')
     api.add_resource(DataSetCountResource, config.app_base_path + '/count')
     api.add_resource(ElasticSearchAdminResource, config.app_base_path + '/admin/elastic')
 
