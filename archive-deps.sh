@@ -27,6 +27,7 @@ fi
 mkdir $VENDOR
 pip install --no-cache-dir --exists-action=w --download $VENDOR -r requirements-normal.txt
 pip install --no-cache-dir --download $VENDOR -r requirements-native.txt --no-use-wheel
+cp requirements.txt $VENDOR
 
 # prepare build manifest
 echo "commit_sha=$(git rev-parse HEAD)" > build_info.ini
