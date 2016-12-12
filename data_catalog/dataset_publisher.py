@@ -19,6 +19,8 @@ import flask
 
 from elasticsearch.exceptions import ConnectionError, NotFoundError
 from data_catalog.bases import DataCatalogResource, DataCatalogModel
+from data_catalog.metadata_entry import ORG_UUID_FIELD
+from data_catalog.org_id_decoder import OrgIdDecoder
 
 
 class TableResource(DataCatalogResource):
@@ -37,13 +39,15 @@ class DatasetPublisher(DataCatalogModel):
     def __call__(self, entry_id, token):
         try:
             # TODO: validate response
-            dataset = self._elastic_search.get(
+            result = self._elastic_search.get(
                 index=self._config.elastic.elastic_index,
                 doc_type=self._config.elastic.elastic_metadata_type,
                 id=entry_id)
 
+            dataset = result['_source']
+            dataset[ORG_UUID_FIELD] = OrgIdDecoder.decode(dataset[ORG_UUID_FIELD])
             publish_url = self._config.services_url.dataset_publisher_url
-            return self._post(publish_url, token, dataset['_source'])
+            return self._post(publish_url, token, dataset)
         except NotFoundError:
             self._log.exception('Data set with the given ID not found.')
             return None, 404
