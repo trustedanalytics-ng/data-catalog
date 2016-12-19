@@ -21,4 +21,4 @@ then
 fi
 
 # Build dependencies
-docker run -v $PWD/vendor:/src -v $PWD/build:/build tapimages.us.enableiot.com:8080/data-catalog-build
+docker run -v $PWD/vendor:/src -v $PWD/build:/build tapimages:8080/data-catalog-build

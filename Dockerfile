@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-FROM tapimages.us.enableiot.com:8080/tap-base-python:python2.7-jessie
+FROM tapimages:8080/tap-base-python:python2.7-jessie
 
 ENV APP_VERSION=0.6.2
 ENV PORT=8080
