@@ -35,6 +35,6 @@ echo "commit_sha=$(git rev-parse HEAD)" > build_info.ini
 # assemble the artifact
 VERSION=$(grep current_version .bumpversion.cfg | cut -d " " -f 3)
 FILE=data-catalog-deps-$VERSION.zip
-zip -rj $FILE requirements.txt build_info.ini $VENDOR/*
+zip -rj $FILE build_info.ini $VENDOR/*
 
 echo "Next step: upload $FILE to a server, from which it could be downloaded by CI pipeline."
