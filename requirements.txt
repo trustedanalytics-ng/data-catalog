@@ -27,3 +27,4 @@ pycparser==2.14
 cryptography==1.4
 MarkupSafe==0.23
 setuptools==25.0.0
+prometheus-client==0.0.18

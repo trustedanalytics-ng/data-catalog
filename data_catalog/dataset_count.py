@@ -20,7 +20,7 @@ from elasticsearch import Elasticsearch
 
 from data_catalog.bases import DataCatalogResource
 from data_catalog.search import DataSetSearch
-
+from data_catalog.query_translation import DataSetFiltering
 
 # TODO add tests
 class DataSetCountResource(DataCatalogResource):
@@ -46,3 +46,6 @@ class DataSetCountResource(DataCatalogResource):
         return self._search.search({}, flask.g.org_uuid_list,
                                    params['dataset_filtering'],
                                    flask.g.is_admin)['total']
+
+    def collect(self):
+        return self._search.search({}, [], DataSetFiltering.PRIVATE_AND_PUBLIC, True)['total']

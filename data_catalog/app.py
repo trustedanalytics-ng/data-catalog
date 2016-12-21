@@ -20,8 +20,9 @@ import logging
 import sys
 
 from time import time
-from flask import Flask
+from flask import Flask, Response
 from flask_restful import Api
+from prometheus_client import generate_latest, CONTENT_TYPE_LATEST, Gauge
 from elasticsearch import Elasticsearch
 import elasticsearch.exceptions
 
@@ -84,6 +85,7 @@ def get_app():
     config = DCConfig()
     _configure_logging(config)
     _prepare_environment(config)
+    _register_metrics()
     return _create_app(config)
 
 
@@ -134,10 +136,28 @@ def _configure_logging(config):
     root_logger.addHandler(negative_handler)
 
 
+def _register_metrics():
+    """
+    Registers Gauge metric with current number of data sets
+    """
+    dc_metrics = Gauge('tap_datacatalog_counts', 'Data Catalog metrics', ['component'])
+    dc_metrics.labels('datasets').set_function(DataSetCountResource().collect)  # pylint: disable=no-member
+
+
+def _get_metrics():
+    """
+    Generate latest values for registered metrics
+    :return: Response containing metrics to be gathered by Prometheus
+    """
+    latest = generate_latest()
+    return Response(latest, content_type=CONTENT_TYPE_LATEST)
+
+
 def _create_app(config):
     app = Flask(__name__)
     api = ExceptionHandlingApi(app)
     api_doc_route = '/api-docs'
+    api_metrics_route = '/metrics'
 
     api.add_resource(DataSetSearchResource, config.app_base_path)
     api.add_resource(ApiDoc, api_doc_route)
@@ -146,7 +166,9 @@ def _create_app(config):
     api.add_resource(DataSetCountResource, config.app_base_path + '/count')
     api.add_resource(ElasticSearchAdminResource, config.app_base_path + '/admin/elastic')
 
-    security = Security(auth_exceptions=[api_doc_route])
+    app.route(api_metrics_route)(_get_metrics)
+
+    security = Security(auth_exceptions=[api_doc_route, api_metrics_route])
     app.before_request(security.authenticate)
 
     return app

@@ -25,5 +25,5 @@ else
   NPROC=4
 fi
 
-gunicorn 'data_catalog.app:get_app()' --bind :$PORT --enable-stdio-inheritance --workers $NPROC
+exec gunicorn 'data_catalog.app:get_app()' --bind :$PORT --enable-stdio-inheritance --workers $NPROC
 

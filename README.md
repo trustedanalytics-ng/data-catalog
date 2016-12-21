@@ -21,6 +21,11 @@ It is used to store, retrieve and to search over metadata describing data sets d
 * Available on `/api-docs` endpoint of the application.
 * Human readable doc format can be generated with [Swagger2Markup] (https://swagger2markup.readme.io/docs/getting-started).
 
+## Metrics
+
+* Available on `/metrics` endpoint of the application.
+* Readable by Prometheus.
+
 ## Service dependencies
 * ElasticSearch - metadata store backing
 * Downloader (Trusted Analytics platform) - is called to delete the actual data of the data sets
