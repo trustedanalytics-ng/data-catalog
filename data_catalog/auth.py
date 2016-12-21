@@ -133,6 +133,7 @@ class _Authorization(object):
         user_orgs = self._get_orgs_user_has_access(token)
         self._log.debug('User belongs to orgs: %s/nUser requested access to: %s',
                         user_orgs, requested_orgs)
+
         if is_admin:
             return requested_orgs
 
@@ -154,12 +155,12 @@ class _Authorization(object):
         """
         if request.method == 'GET':
             orgs_string = request.args.get('orgs', default="", type=str)
-            return [uuid.lower().strip() for uuid in orgs_string.split(',')] if orgs_string else []
+            return [uuid for uuid in orgs_string.split(',')] if orgs_string else []
         elif request.method in ['PUT', 'POST']:
             try:
                 org_string = request.get_json(force=True).get('orgUUID', '')
                 if org_string:
-                    return [org_name.lower() for org_name in org_string.split(',')]
+                    return [org_name for org_name in org_string.split(',')]
                 else:
                     return []
             except (BadRequest, AttributeError) as ex:

@@ -45,7 +45,6 @@ class DatasetPublisher(DataCatalogModel):
                 id=entry_id)
 
             dataset = result['_source']
-            dataset[ORG_UUID_FIELD] = OrgIdDecoder.decode(dataset[ORG_UUID_FIELD])
             publish_url = self._config.services_url.dataset_publisher_url
             return self._post(publish_url, token, dataset)
         except NotFoundError:

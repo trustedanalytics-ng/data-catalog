@@ -86,7 +86,7 @@ class AuthorizationTests(DataCatalogTestCase):
     @data(([], [], u'/fake_path', 'GET', '', False),
           (['org1', 'org2'], [u'org1', u'org2'], u'/fake_path', 'GET', '', False),
           (['org1', 'org2'], [u'org1'], u'/fake_path?orgs=org1', 'GET', '', False),
-          (['org1', 'org2'], [u'org1', u'org2'], u'/fake_path?orgs=org1,oRG2', 'GET', '', False),
+          (['org1', 'org2'], [u'org1', u'org2'], u'/fake_path?orgs=org1,org2', 'GET', '', False),
           (['org1'], [u'org1'], u'/fake_path', 'PUT', '{"orgUUID": "org1"}', False),
           (['org1', 'org2'], [u'org2'], u'/fake_path', 'POST', '{"orgUUID": "org2"}', False),
           ([], [u'org1', u'org2'], u'/fake_path?orgs=org1,org2', 'GET', '', True),
