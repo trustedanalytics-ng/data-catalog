@@ -152,12 +152,16 @@ def _get_metrics():
     latest = generate_latest()
     return Response(latest, content_type=CONTENT_TYPE_LATEST)
 
+def _get_health():
+    return Response(response="UP", status=200)
+
 
 def _create_app(config):
     app = Flask(__name__)
     api = ExceptionHandlingApi(app)
     api_doc_route = '/api-docs'
     api_metrics_route = '/metrics'
+    api_health_route = '/health'
 
     api.add_resource(DataSetSearchResource, config.app_base_path)
     api.add_resource(ApiDoc, api_doc_route)
@@ -167,8 +171,9 @@ def _create_app(config):
     api.add_resource(ElasticSearchAdminResource, config.app_base_path + '/admin/elastic')
 
     app.route(api_metrics_route)(_get_metrics)
+    app.route(api_health_route)(_get_health)
 
-    security = Security(auth_exceptions=[api_doc_route, api_metrics_route])
+    security = Security(auth_exceptions=[api_doc_route, api_metrics_route, api_health_route])
     app.before_request(security.authenticate)
 
     return app
