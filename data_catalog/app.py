@@ -20,11 +20,12 @@ import logging
 import sys
 
 from time import time
-from flask import Flask, Response
+from flask import Flask, Response, jsonify
 from flask_restful import Api
 from prometheus_client import generate_latest, CONTENT_TYPE_LATEST, Gauge
 from elasticsearch import Elasticsearch
 import elasticsearch.exceptions
+import version
 
 from data_catalog.auth import Security
 from data_catalog.elastic_admin import ElasticSearchAdminResource
@@ -33,7 +34,6 @@ from data_catalog.metadata_entry import MetadataEntryResource
 from data_catalog.search import DataSetSearchResource
 from data_catalog.dataset_count import DataSetCountResource
 from data_catalog.api_doc import ApiDoc
-from data_catalog.app_health import AppHealth
 from data_catalog.dataset_publisher import TableResource
 
 
@@ -153,17 +153,13 @@ def _get_metrics():
     latest = generate_latest()
     return Response(latest, content_type=CONTENT_TYPE_LATEST)
 
-def _get_health():
-    health = AppHealth().serialize()
-    return Response(response=health, status=200)
-
-
 def _create_app(config):
     app = Flask(__name__)
     api = ExceptionHandlingApi(app)
     api_doc_route = '/api-docs'
     api_metrics_route = '/metrics'
     health_route = '/health'
+    info_route = '/info'
 
     api.add_resource(DataSetSearchResource, config.app_base_path)
     api.add_resource(ApiDoc, api_doc_route)
@@ -173,9 +169,10 @@ def _create_app(config):
     api.add_resource(ElasticSearchAdminResource, config.app_base_path + '/admin/elastic')
 
     app.route(api_metrics_route)(_get_metrics)
-    app.route(health_route)(_get_health)
+    app.route(health_route, endpoint=health_route)(lambda: jsonify(name=version.NAME, app_version=version.VERSION))
+    app.route(info_route, endpoint=info_route)(lambda: jsonify(status="UP"))
 
-    security = Security(auth_exceptions=[api_doc_route, api_metrics_route, health_route])
+    security = Security(auth_exceptions=[api_doc_route, api_metrics_route, health_route, info_route])
     app.before_request(security.authenticate)
 
     return app
