@@ -33,6 +33,7 @@ from data_catalog.metadata_entry import MetadataEntryResource
 from data_catalog.search import DataSetSearchResource
 from data_catalog.dataset_count import DataSetCountResource
 from data_catalog.api_doc import ApiDoc
+from data_catalog.app_health import AppHealth
 from data_catalog.dataset_publisher import TableResource
 
 
@@ -153,7 +154,8 @@ def _get_metrics():
     return Response(latest, content_type=CONTENT_TYPE_LATEST)
 
 def _get_health():
-    return Response(response="UP", status=200)
+    health = AppHealth().serialize()
+    return Response(response=health, status=200)
 
 
 def _create_app(config):
@@ -161,7 +163,7 @@ def _create_app(config):
     api = ExceptionHandlingApi(app)
     api_doc_route = '/api-docs'
     api_metrics_route = '/metrics'
-    api_health_route = '/health'
+    health_route = '/health'
 
     api.add_resource(DataSetSearchResource, config.app_base_path)
     api.add_resource(ApiDoc, api_doc_route)
@@ -171,9 +173,9 @@ def _create_app(config):
     api.add_resource(ElasticSearchAdminResource, config.app_base_path + '/admin/elastic')
 
     app.route(api_metrics_route)(_get_metrics)
-    app.route(api_health_route)(_get_health)
+    app.route(health_route)(_get_health)
 
-    security = Security(auth_exceptions=[api_doc_route, api_metrics_route, api_health_route])
+    security = Security(auth_exceptions=[api_doc_route, api_metrics_route, health_route])
     app.before_request(security.authenticate)
 
     return app

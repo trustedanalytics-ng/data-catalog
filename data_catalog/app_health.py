@@ -14,5 +14,14 @@
 # limitations under the License.
 #
 
-# DO NOT TOUCH - version is changed automatically by Bumpversion
-VERSION = '0.6.4'
+import json
+from flask_restful import Resource
+
+class AppHealth(Resource):
+
+    def __init__(self):
+        super(AppHealth, self).__init__()
+        self.status = "UP"
+
+    def serialize(self):
+        return json.dumps(self.__dict__)
