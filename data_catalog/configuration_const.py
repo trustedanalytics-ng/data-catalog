@@ -25,7 +25,14 @@ METADATA_MAPPING = {
     'properties': {
         'title': {
             'type': 'string',
-            'analyzer': 'english'
+            'analyzer': 'autocomplete',
+            'search_analyzer': 'standard',
+            'fields': {
+                'english': {
+                    'type': 'string',
+                    'analyzer': 'english'
+                }
+            },
         },
         'dataSample': {
             'type': 'string'
@@ -71,6 +78,16 @@ METADATA_SETTINGS = {
             'uri_stop_filter': {
                 'type': 'stop',
                 'stopwords': ['http', 'https', 'ftp', 'www', 'com']
+            },
+            'autocomplete_filter': {
+                'type': 'edge_ngram',
+                'min_gram': 2,
+                'max_gram': 16
+            },
+            'word_split_filter': {
+                'type': 'word_delimiter',
+                'generate_word_parts': True,
+                'preserve_original': True
             }
         },
         'analyzer': {
@@ -78,6 +95,15 @@ METADATA_SETTINGS = {
                 'type': 'custom',
                 'tokenizer': 'lowercase',
                 'filter': 'uri_stop_filter'
+            },
+            'autocomplete': {
+                'type': 'custom',
+                'tokenizer': 'standard',
+                'filter': [
+                    'lowercase',
+                    'word_split_filter',
+                    'autocomplete_filter'
+                ]
             }
         }
     }
