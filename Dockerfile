@@ -13,7 +13,7 @@
 # limitations under the License.
 FROM tapimages:8080/tap-base-python:python2.7-jessie
 
-ENV APP_VERSION=0.6.5
+ENV APP_VERSION=0.6.6
 ENV PORT=8080
 
 ADD  scripts /
