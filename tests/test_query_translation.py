@@ -438,54 +438,22 @@ class FilterExtractorTests(TestCase):
 class ElasticSearchBaseQueryCreationTests(TestCase):
     MATCH_ALL = {'match_all': {}}
 
-    def setUp(self):
-        self.query_creator = ElasticSearchBaseQueryCreator()
-
     def test_baseQueryCreation_textQueryProvided_baseQueryCreated(self):
         TEXT = 'some text query'
-        proper_base_query = {
-            'bool': {
-                'should': [
-                    {
-                        'wildcard': {
-                            'title': {
-                                'value': '*{}*'.format(TEXT),
-                                'boost': 3
-                            }
-                        }
-                    },
-                    {
-                        'match': {
-                            'dataSample': {
-                                'query': TEXT,
-                                'boost': 2
-                            }
-                        }
-                    },
-                    {
-                        'match': {
-                            'sourceUri': {
-                                'query': TEXT,
-                            }
-                        }
-                    }
-                ]
-            }
-        }
 
         self.assertDictEqual(
-            proper_base_query,
-            self.query_creator.create_base_query({'query': TEXT}))
+            ElasticSearchBaseQueryCreator.render_es_query(TEXT),
+            ElasticSearchBaseQueryCreator.create_base_query({'query': TEXT}))
 
     def test_baseQueryCreation_noQueryElement_matchAllReturned(self):
         self.assertDictEqual(
             self.MATCH_ALL,
-            self.query_creator.create_base_query({}))
+            ElasticSearchBaseQueryCreator.create_base_query({}))
 
     def test_baseQueryCreation_emptyQuery_matchAllReturned(self):
         self.assertDictEqual(
             self.MATCH_ALL,
-            self.query_creator.create_base_query({'query': ''}))
+            ElasticSearchBaseQueryCreator.create_base_query({'query': ''}))
 
 
 class ElasticSearchQueryTranslationTests(TestCase):

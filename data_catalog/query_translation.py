@@ -127,39 +127,43 @@ class ElasticSearchBaseQueryCreator(object):
         """
         query_string = query_dict.get('query', None)
         if query_string:
-            return {
-                'bool': {
-                    'should': [
-                        {
-                            'multi_match': {
-                                'query': query_string,
-                                'fields': [
-                                    'title',
-                                    'title.english'
-                                ],
-                                'type': 'most_fields'
-                            }
-                        },
-                        {
-                            'match': {
-                                'dataSample': {
-                                    'query': query_string,
-                                    'boost': 2
-                                }
-                            }
-                        },
-                        {
-                            'match': {
-                                'sourceUri': {
-                                    'query': query_string,
-                                }
-                            }
-                        }
-                    ]
-                }
-            }
+            return ElasticSearchBaseQueryCreator.render_es_query(query_string)
         else:
             return {'match_all': {}}
+
+    @staticmethod
+    def render_es_query(query_string):
+        return {
+            'bool': {
+                'should': [
+                    {
+                        'multi_match': {
+                            'query': query_string,
+                            'fields': [
+                                'title',
+                                'title.english'
+                            ],
+                            'type': 'most_fields'
+                        }
+                    },
+                    {
+                        'match': {
+                            'dataSample': {
+                                'query': query_string,
+                                'boost': 2
+                            }
+                        }
+                    },
+                    {
+                        'match': {
+                            'sourceUri': {
+                                'query': query_string,
+                            }
+                        }
+                    }
+                ]
+            }
+        }
 
 
 class ElasticSearchFilterExtractor(object):
