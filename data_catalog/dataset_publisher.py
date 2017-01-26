@@ -19,9 +19,6 @@ import flask
 
 from elasticsearch.exceptions import ConnectionError, NotFoundError
 from data_catalog.bases import DataCatalogResource, DataCatalogModel
-from data_catalog.metadata_entry import ORG_UUID_FIELD
-from data_catalog.org_id_decoder import OrgIdDecoder
-
 
 class TableResource(DataCatalogResource):
 
