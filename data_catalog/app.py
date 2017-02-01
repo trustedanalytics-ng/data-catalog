@@ -169,9 +169,9 @@ def _create_app(config):
     api.add_resource(ElasticSearchAdminResource, config.app_base_path + '/admin/elastic')
 
     app.route(api_metrics_route)(_get_metrics)
-    app.route(health_route, endpoint=health_route)(lambda: jsonify(name=version.NAME,
+    app.route(info_route, endpoint=info_route)(lambda: jsonify(name=version.NAME,
                                                                    app_version=version.VERSION))
-    app.route(info_route, endpoint=info_route)(lambda: jsonify(status="UP"))
+    app.route(health_route, endpoint=health_route)(lambda: jsonify(status="UP"))
 
     security = Security(auth_exceptions=[api_doc_route, api_metrics_route, health_route,
                                          info_route])
