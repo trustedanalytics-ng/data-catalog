@@ -25,8 +25,8 @@ if [ -d $VENDOR ]; then
     rm -rf $VENDOR
 fi
 mkdir $VENDOR
-pip install --no-cache-dir --exists-action=w --download $VENDOR -r requirements-normal.txt
-pip install --no-cache-dir --download $VENDOR -r requirements-native.txt --no-use-wheel
+pip download -d $VENDOR -r requirements-normal.txt
+pip download -d $VENDOR -r requirements-native.txt --no-binary :all
 cp requirements.txt $VENDOR
 
 # prepare build manifest
