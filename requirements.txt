@@ -24,7 +24,7 @@ idna==2.0
 ipaddress==1.0.15
 pyasn1==0.1.9
 pycparser==2.14
-cryptography==1.4
+cryptography==3.2
 MarkupSafe==0.23
 setuptools==25.0.0
 prometheus-client==0.0.18
