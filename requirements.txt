@@ -26,5 +26,5 @@ pyasn1==0.1.9
 pycparser==2.14
 cryptography==1.4
 MarkupSafe==0.23
-setuptools==25.0.0
+setuptools==65.5.1
 prometheus-client==0.0.18
